@@ -1,0 +1,80 @@
+name: Windows build and tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: windows-${{ github.event_name }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name != 'release' }}
+
+jobs:
+  build:
+    runs-on: windows-2022
+    timeout-minutes: 25
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.1.0
+        with:
+          persist-credentials: false
+      - name: Install verified LLVM-MinGW toolchain
+        run: ./scripts/setup-toolchain.ps1
+      - name: Build native Windows application
+        run: ./build.ps1
+      - name: Verify native PE and portable assets
+        run: ./scripts/check-native.ps1
+      - name: Ensure WebView2 Runtime
+        run: ./scripts/ensure-webview2.ps1
+      - name: Run Windows integration suite
+        run: ./test.ps1 -OutputDirectory ./test-results/ci
+      - name: Package portable release
+        run: ./scripts/package-release.ps1
+      - name: Upload portable build
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        with:
+          name: folio-windows-x64
+          path: artifacts/*
+          if-no-files-found: error
+      - name: Upload integration report and previews
+        if: always()
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        with:
+          name: integration-results
+          path: |
+            test-results/ci/report.json
+            test-results/ci/*.png
+          if-no-files-found: warn
+
+  release-assets:
+    if: github.event_name == 'release'
+    needs: build
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: write
+    steps:
+      - name: Download tested portable build
+        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131 # v7.0.0
+        with:
+          name: folio-windows-x64
+          path: artifacts
+      - name: Attach verified build to release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+        run: |
+          if [ "$RELEASE_TAG" != "v2.0.0" ]; then
+            echo "Update the application version and release workflow before releasing another version."
+            exit 1
+          fi
+          gh release upload "$RELEASE_TAG" artifacts/* --clobber
