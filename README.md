@@ -6,6 +6,10 @@
 
 [Download for Windows](https://github.com/ilantwig/folio-pdf-reader/releases/latest) · [Build from source](#build-from-source) · [Report a bug](https://github.com/ilantwig/folio-pdf-reader/issues/new/choose)
 
+![Folio home screen, edited to remove recent files](docs/assets/home-screen-redacted.jpg)
+
+*Folio 1.3 home screen, edited to remove recent files.*
+
 ![Folio showing a selected signature with inline color and thickness controls](docs/assets/signature-controls.png)
 
 ## What it does
