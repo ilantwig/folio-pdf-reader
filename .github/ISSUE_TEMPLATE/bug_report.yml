@@ -1,0 +1,33 @@
+name: Bug report
+description: Report a reproducible problem in Folio.
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: Please use synthetic or redacted files. Do not attach private PDFs, signatures, or profile data.
+  - type: input
+    id: version
+    attributes:
+      label: Folio version
+      placeholder: 2.0.0
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Windows and WebView2 versions
+      placeholder: Windows 11 x64; WebView2 ...
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: Include expected behavior and what actually happened.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Redacted screenshot or synthetic sample
+      description: Optional. Include only material you are comfortable making public.

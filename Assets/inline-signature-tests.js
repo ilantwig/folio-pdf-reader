@@ -1,0 +1,63 @@
+(async()=>{
+  const app=Folio.app, tool=Folio.signatures, m=app.pdfViewer._layerProperties.annotationEditorUIManager, results=[];
+  const assert=(test,passed)=>results.push({test,passed:!!passed});
+  const wait=async predicate=>{for(let i=0;i<250;i++){if(predicate())return;await new Promise(r=>setTimeout(r,40));}throw new Error('Inline signature test timed out: '+document.getElementById('folioToast').textContent);};
+  const rectSame=(a,b)=>a.every((v,i)=>Math.abs(v-b[i])<.01);
+  const main=window.folioTestSignature, originalId=main.id, box=main.getPDFRect(), originalBitmap=main.serialize(false).bitmapId;
+  const otherNode=app.pdfViewer.getPageView(3).div.querySelector('.stampEditor'), other=m.getEditor(otherNode.id);
+  const otherPng=other.serialize(true).bitmapUrl, otherBox=other.getPDFRect(), template=JSON.stringify(tool.settings);
+  app.pdfViewer.currentScaleValue='page-fit';await new Promise(r=>setTimeout(r,100));app.page=1;m.setSelected(main);await tool.inline.select(main);
+  await wait(()=>!document.getElementById('signatureInlineToolbar').hidden&&!document.querySelector('#signatureInlineToolbar fieldset').disabled);
+  assert('Selecting an instance shows inline controls without a dialog',tool.inline.editor===main&&!document.getElementById('signatureDialog').open);
+  const floating=document.getElementById('signatureInlineToolbar').getBoundingClientRect();
+  assert('Inline controls are anchored inside the page viewport',floating.top>=95&&floating.left>=0&&floating.right<=innerWidth);
+  document.querySelector('[data-inline-color="#184aa0"]').click();await tool.flushInline();
+  assert('Inline color changes the selected signature instance',main.id===originalId&&tool.inline.editor===main&&tool.inline.appearance.color==='#184aa0'&&main.serialize(false).bitmapId!==originalBitmap);
+  assert('Inline color keeps position and dimensions exactly',rectSame(box,main.getPDFRect()));
+  assert('Another copy retains its own image and position',other.serialize(true).bitmapUrl===otherPng&&rectSame(otherBox,other.getPDFRect()));
+  m.undo();await wait(()=>main.serialize(false).bitmapId===originalBitmap);
+  assert('Inline color has a reversible undo operation',tool.inline.editor===main&&main.serialize(false).bitmapId===originalBitmap);
+  m.redo();await tool.inline.select(main);await wait(()=>tool.inline.appearance?.color==='#184aa0');
+  assert('Inline color redo restores the instance appearance',tool.inline.appearance.color==='#184aa0');
+  const beforeWeight=main.serialize(false).bitmapId, startWeight=tool.inline.appearance.thickness||0;
+  const weight=document.getElementById('signatureInlineThickness');
+  weight.value='4';weight.dispatchEvent(new Event('input',{bubbles:true}));
+  await wait(()=>tool.inline.appearance?.thickness===4);
+  assert('Stroke thickness previews live before releasing the slider',main.serialize(false).bitmapId!==beforeWeight&&!document.getElementById('signatureDialog').open);
+  for(const value of ['3','4.25','5']){weight.value=value;weight.dispatchEvent(new Event('input',{bubbles:true}));}
+  weight.dispatchEvent(new Event('change',{bubbles:true}));await tool.flushInline();
+  assert('Rapid slider changes use the latest value',tool.inline.appearance.thickness===5);
+  assert('Inline thickness keeps the original frame and identity',main.id===originalId&&rectSame(box,main.getPDFRect()));
+  m.undo();await wait(()=>main.serialize(false).bitmapId===beforeWeight);await tool.inline.select(main);
+  assert('One undo reverses the entire thickness gesture',tool.inline.appearance.thickness===startWeight);
+  m.redo();await tool.inline.select(main);await wait(()=>tool.inline.appearance?.thickness===5);
+  assert('Redo restores the final thickness value',tool.inline.appearance.thickness===5);
+  const custom=document.getElementById('signatureInlineColor');custom.value='#119259';custom.dispatchEvent(new Event('input',{bubbles:true}));custom.dispatchEvent(new Event('change',{bubbles:true}));await tool.flushInline();
+  const c=main.div.querySelector('canvas'),data=c.getContext('2d').getImageData(0,0,c.width,c.height).data;let opaque=0,green=0;
+  for(let i=0;i<data.length;i+=4)if(data[i+3]>150){opaque++;if(Math.abs(data[i]-17)<4&&Math.abs(data[i+1]-146)<4&&Math.abs(data[i+2]-89)<4)green++;}
+  assert('Custom inline color changes the rendered signature pixels',opaque>20&&green/opaque>.95);
+  assert('Inline edits do not change the imported signature template',JSON.stringify(tool.settings)===template);
+  assert('Inline color and thickness leave the other instance unchanged',other.serialize(true).bitmapUrl===otherPng);
+  // Save while an input event is still queued; the save flow must flush it.
+  weight.value='2.5';weight.dispatchEvent(new Event('input',{bubbles:true}));
+  assert('Saving flushes pending inline changes',await Folio.save()&&tool.inline.appearance.thickness===2.5&&!Folio.dirty());
+  custom.value='#9b2345';custom.dispatchEvent(new Event('input',{bubbles:true}));custom.dispatchEvent(new Event('change',{bubbles:true}));await tool.flushInline();
+  assert('An inline edit after save marks the document changed',Folio.dirty());
+  m.undo();await tool.inline.select(main);
+  assert('Undo after save restores clean document state',!Folio.dirty());
+  m.redo();await tool.inline.select(main);
+  assert('Redo after save restores the changed instance',Folio.dirty()&&tool.inline.appearance.color==='#9b2345');
+  const mainPixels=main.serialize(true).bitmapUrl,otherBitmap=other.serialize(false).bitmapId;
+  app.page=4;m.setSelected(other);await tool.inline.select(other);
+  assert('Selecting another instance shows that copy\'s settings',tool.inline.editor===other&&tool.inline.appearance.color==='#151515'&&tool.inline.appearance.thickness===0);
+  custom.value='#6543aa';custom.dispatchEvent(new Event('input',{bubbles:true}));custom.dispatchEvent(new Event('change',{bubbles:true}));await tool.flushInline();
+  assert('Editing the second instance leaves the first instance intact',main.serialize(true).bitmapUrl===mainPixels&&other.serialize(false).bitmapId!==otherBitmap);
+  m.undo();await tool.inline.select(other);assert('Undo targets the second instance independently',other.serialize(false).bitmapId===otherBitmap&&main.serialize(true).bitmapUrl===mainPixels);
+  app.page=1;m.setSelected(main);await tool.inline.select(main);
+  custom.value='#184aa0';custom.dispatchEvent(new Event('input',{bubbles:true}));
+  app.page=4;m.setSelected(other);await tool.inline.select(other);await tool.flushInline();
+  assert('Switching selection while preview is queued keeps the intended target',tool.inline.editor===other&&m.firstSelectedEditor===other&&other.serialize(false).bitmapId===otherBitmap);
+  assert('The queued edit applies to its original instance only',main.serialize(true).bitmapUrl!==mainPixels&&other.serialize(true).bitmapUrl===otherPng);
+  app.page=1;m.setSelected(main);await tool.inline.select(main);await new Promise(r=>setTimeout(r,250));
+  return results;
+})()

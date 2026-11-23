@@ -1,0 +1,15 @@
+/.tools/
+/build/
+/dist/
+/artifacts/
+/test-results/
+/.vs/
+/.idea/
+.env
+.env.*
+*.log
+*.user
+*.suo
+*.tmp
+Thumbs.db
+.DS_Store

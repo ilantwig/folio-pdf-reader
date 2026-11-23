@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Folio — A clear space for every PDF</title>
+  <meta name="description" content="Read, annotate, fill forms, and add your signature with Folio for Windows. A local PDF reader with a native C++ Windows host. Free portable download.">
+  <meta property="og:title" content="Folio — A clear space for every PDF">
+  <meta property="og:description" content="Read. Annotate. Make your mark. Download Folio for Windows.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://ilantwig.github.io/folio-pdf-reader/">
+  <meta property="og:image" content="https://ilantwig.github.io/folio-pdf-reader/assets/signature-controls.png">
+  <meta name="theme-color" content="#246957">
+  <link rel="icon" href="assets/folio.ico">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="nav wrap">
+    <a class="brand" href="#" aria-label="Folio home"><span class="brand-icon">f</span>folio<span class="brand-dot">.</span></a>
+    <nav aria-label="Main navigation"><a href="#features">The reader</a><a href="#signatures">Signatures</a><a href="#getting-started">Get started</a><a href="https://github.com/ilantwig/folio-pdf-reader">Source code</a></nav>
+    <a class="button small" href="https://github.com/ilantwig/folio-pdf-reader/releases/latest/download/Folio-Win32-2.0-x64.zip" download>Download for Windows</a>
+  </header>
+  <main id="main">
+    <section class="hero wrap">
+      <div class="hero-copy"><p class="eyebrow">A PDF READER FOR WINDOWS</p>
+        <h1>A clear space<br>for <em>every page.</em></h1>
+        <p class="intro">Read, find, and make your mark.<br>Your everyday PDFs, all in one quiet place.</p>
+        <a class="button download" href="https://github.com/ilantwig/folio-pdf-reader/releases/latest/download/Folio-Win32-2.0-x64.zip" download><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 3v12m-5-5 5 5 5-5M5 16v4h14v-4"/></svg>Download Folio for Windows</a>
+        <p class="download-note">Free &amp; open source · Portable ZIP · 6.8 MiB · Version 2.0</p>
+      </div>
+      <div class="hero-aside"><div class="paper paper-back"></div><div class="paper paper-front"><span class="paper-label">A LITTLE MORE FOCUS.</span><div class="paper-title">Bring your<br>next read.</div><div class="paper-lines"><i></i><i></i><i></i></div><div class="paper-signature" aria-hidden="true"><svg viewBox="0 0 260 90"><path d="M12 64C35 54 63 19 67 25S45 67 57 64s25-26 28-21-4 18 4 15 10-12 16-9 7 17 20 12 16-12 20-5 12 10 23 4 13 15 32 7 19-9 27-7M20 74l218 6"/></svg></div><span class="paper-bottom">folio. <span>YOUR SPACE, YOUR MARK.</span></span></div><span class="aside-caption">Local files. Open possibilities.</span></div>
+    </section>
+    <div class="facts wrap"><span>Windows 10 &amp; 11 · x64</span><span>Native C++ / Win32 host</span><span>No .NET installation</span><span>MIT licensed</span></div>
+    <section class="showcase" id="signatures">
+      <div class="wrap"><div class="section-heading"><div><p class="eyebrow">MAKE IT YOURS</p><h2>Your signature.<br><em>Exactly where it belongs.</em></h2></div><p>Import a signature image, place it anywhere, and resize it. Select a placed signature to change its color and thickness, right on the page.</p></div>
+      <figure class="app-frame"><div class="app-title"><span class="app-square"></span>Folio for Windows<span class="app-caption">Actual app screenshot</span></div><img src="assets/signature-controls.png" alt="Folio displaying a PDF with a selected blue signature and inline color swatches and thickness slider" width="1899" height="1296" loading="eager"></figure>
+      <p class="figure-note">Style each signature independently. Save a PDF copy to keep your changes.</p></div>
+    </section>
+    <section class="features wrap" id="features"><p class="eyebrow">FOR THE WAY YOU WORK</p><h2>Everything you need<br>to get through a PDF.</h2><div class="feature-grid">
+      <article><span class="feature-symbol" aria-hidden="true">Aa</span><h3>Find your place.</h3><p>Search across pages, select and copy text, browse thumbnails and bookmarks, and pick up from your recent files.</p></article>
+      <article><span class="feature-symbol pen" aria-hidden="true">✎</span><h3>Make your mark.</h3><p>Add notes and annotations, fill PDF forms, and place image signatures. Save your work in a new PDF copy.</p></article>
+      <article><span class="feature-symbol" aria-hidden="true">▥</span><h3>Read your way.</h3><p>Zoom, rotate, switch page layouts, and use light or dark mode. Print when you need something on paper.</p></article>
+    </div></section>
+    <section class="local-section"><div class="wrap local-grid"><div><p class="eyebrow">A LITTLE LESS FRICTION</p><h2>At home on Windows.<br><em>At home on your device.</em></h2></div><div class="local-details"><p>Folio runs as a native C++/Win32 application. Its PDF interface and renderer use locally bundled PDF.js inside Microsoft WebView2.</p><p>Reading and editing happen locally. Folio does not upload your PDFs to a document service. Your recent files and signature library stay in your Windows user profile.</p><p class="muted">WebView2 is required. No .NET or separate C++ runtime installation is needed.</p></div></div></section>
+    <section class="install wrap" id="getting-started"><div class="install-intro"><p class="eyebrow">READY WHEN YOU ARE</p><h2>Unzip.<br>Open.<br><em>Settle in.</em></h2><a class="button" href="https://github.com/ilantwig/folio-pdf-reader/releases/latest/download/Folio-Win32-2.0-x64.zip" download>Download Folio 2.0</a></div><div class="instructions">
+      <article><h3>Download and extract</h3><p>Save the ZIP, right-click it, and choose <strong>Extract All</strong>. Keep the entire extracted folder together.</p></article>
+      <article><h3>Open Folio.exe</h3><p>Double-click <strong>Folio.exe</strong> in the extracted folder. Open your PDF or try the bundled sample.</p></article>
+      <article><h3>Install WebView2 if needed</h3><p>If Folio reports a missing runtime, install Microsoft's <a href="https://developer.microsoft.com/microsoft-edge/webview2/" target="_blank" rel="noopener noreferrer">WebView2 Evergreen Runtime</a> for x64, then open Folio again.</p></article>
+      <div class="release-note"><strong>About this release</strong><p>Version 2.0 is an unsigned build for Windows 10 and 11 x64. Windows may display an unknown publisher notice. The portable app was checked with 104 integration tests covering reading, editing, signatures, and saving.</p><a href="https://github.com/ilantwig/folio-pdf-reader/releases/latest/download/SHA256SUMS.txt">View download checksum</a></div>
+    </div></section>
+    <section class="faq wrap"><h2>A few useful details.</h2>
+      <details><summary>Can I send Folio to someone else?</summary><p>Yes. Share this page or send the complete portable ZIP. It contains the application and sample document. It does not contain your PDFs, signature library, or reading history.</p></details>
+      <details><summary>Will signatures work in other PDF readers?</summary><p>Use Save PDF copy to embed your image signatures and annotations. The saved PDF can be opened in other readers. Image signatures are visual marks, not certificate-based digital signatures.</p></details>
+      <details><summary>Does it need an internet connection?</summary><p>Once WebView2 is installed, Folio can read and edit local PDFs offline. Opening an external document link or installing or updating the WebView2 runtime may use the internet.</p></details>
+      <details><summary>Does this website track me?</summary><p>This page adds no analytics scripts, advertising, or tracking cookies. The hosting provider may process standard access logs. Downloading Folio does not require an account.</p></details>
+    </section>
+  </main>
+  <footer class="wrap footer"><a class="brand" href="#"><span class="brand-icon">f</span>folio<span class="brand-dot">.</span></a><span>A clear space for every page.</span><a href="https://github.com/ilantwig/folio-pdf-reader#readme">Read the app guide</a></footer>
+</body>
+</html>

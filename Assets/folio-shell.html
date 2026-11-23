@@ -1,0 +1,22 @@
+<header id="folioHeader">
+  <button id="homeButton" class="brand" title="Go to library" aria-label="Folio library"><span class="brandIcon">f</span><span>folio<span class="brandDot">.</span></span></button>
+  <span class="headerDivider"></span><span id="documentName">Your reading space</span><span id="changeBadge" hidden>Unsaved changes</span>
+  <div class="headerActions"><button id="themeButton" class="quiet" title="Toggle light / dark theme" aria-label="Toggle light or dark theme">◐</button><button id="helpButton" class="quiet" title="Keyboard shortcuts" aria-label="Keyboard shortcuts">?</button><button id="headerOpen" class="openButton">＋ <span>Open PDF</span></button></div>
+</header>
+<main id="folioHome">
+  <aside class="homeSidebar"><div class="sidebarLabel">WORKSPACE</div><div class="sidebarActive"><span>▤</span> My library <span id="libraryCount">0</span></div><div class="sidebarNote"><div class="offlineDot"></div> A little more focus.<br><span>A little less friction.</span></div><div class="sidebarBottom"><span class="localIcon">▣</span><strong>Made for your desktop</strong><p>Your files stay on this device.<br>No account. No uploads.</p></div></aside>
+  <section class="homeContent">
+    <div class="intro"><div class="eyebrow">A CLEAR SPACE FOR EVERY PAGE</div><h1>Good things start<br>with an open document.</h1><p>Read, find, and make your mark. All in one quiet place.</p></div>
+    <div id="dropZone" tabindex="0" role="button" aria-label="Open PDF or drop a PDF here">
+      <div class="dropIllustration" aria-hidden="true"><div class="paperBack"></div><div class="paperFront"><span>PDF</span><i></i><i></i><i></i><b>↗</b></div></div>
+      <div class="dropCopy"><h2>Bring your next read.</h2><p>Drop a PDF here, or choose one from your computer.</p><button id="heroOpen" class="primary">Open a PDF <span>↗</span></button><span class="shortcutHint">or press <kbd>Ctrl</kbd> <kbd>O</kbd></span></div>
+    </div>
+    <div class="recentHeading"><h2>Recently opened <span id="recentCount">0</span></h2><button id="clearRecent" class="textButton" hidden>Clear history</button></div>
+    <div id="recentList"></div>
+    <div id="emptyRecent"><div class="smallDocument">▤</div><div><strong>Your next chapter belongs here.</strong><p>Documents you open will appear here. We’ll remember your place.</p></div><button id="sampleButton" class="textButton">Try a sample ↗</button></div>
+    <div class="featureRow"><div><span>⌕</span><strong>Find it faster</strong><p>Search every page in a moment.</p></div><div><span>✎</span><strong>Make it yours</strong><p>Highlight, draw, and add notes.</p></div><div><span>▥</span><strong>Read your way</strong><p>Zoom, rotate, and change the view.</p></div></div>
+  </section>
+</main>
+<footer id="folioFooter"><span id="footerStatus"><span class="offlineDot"></span> Local files. Open possibilities.</span><span id="footerRight">FOLIO FOR WINDOWS <span class="footerVersion">1.0</span></span></footer>
+<div id="folioToast" role="status" hidden></div>
+<dialog id="shortcutsDialog"><div class="helpHeading"><h2>A few useful shortcuts</h2><button id="closeHelp" class="quiet" aria-label="Close shortcuts">×</button></div><dl><dt>Open a PDF</dt><dd>Ctrl + O</dd><dt>Find in document</dt><dd>Ctrl + F</dd><dt>Save PDF copy</dt><dd>Ctrl + S</dd><dt>Print</dt><dd>Ctrl + P</dd><dt>Zoom in / out</dt><dd>Ctrl + + / −</dd><dt>Rotate clockwise</dt><dd>R</dd><dt>Next / previous page</dt><dd>Page Down / Page Up</dd><dt>Go to page</dt><dd>Ctrl + Alt + G</dd><dt>Show / hide page panel</dt><dd>F4</dd><dt>Return to library</dt><dd>Ctrl + W</dd></dl><p>Use the ⋯ viewer menu for page layout, full screen, and document properties.</p></dialog>
