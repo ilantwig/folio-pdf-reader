@@ -10,6 +10,10 @@
 
 *Folio 1.3 home screen, edited to remove recent files.*
 
+![Folio signature dialog with a sample saved signature](docs/assets/signature-dialog-redacted.jpg)
+
+*Folio 1.3 signature dialog, edited to replace personal file names and document content.*
+
 ![Folio showing a selected signature with inline color and thickness controls](docs/assets/signature-controls.png)
 
 ## What it does
