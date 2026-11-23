@@ -35,7 +35,7 @@ The upstream archive is `llvm-mingw-20261117-ucrt-x86_64.zip` from [the upstream
 
 ## Validation
 
-`test.ps1` opens a test window and writes a JSON report and PNG previews into a unique `test-results` directory. It uses its own WebView2 profile and never the normal user profile. Full tests require a Windows desktop session and WebView2. Do not run against a production document or claim the GUI tests ran on a headless environment where they could not start.
+`test.ps1` opens a test window and writes a JSON report and PNG previews into a unique `test-results` directory. It uses its own WebView2 profile and never the normal user profile. Full tests require a Windows desktop session and WebView2 145 or newer. CI runs `scripts/ensure-webview2.ps1` to update older preinstalled runtimes before testing. Do not run against a production document or claim the GUI tests ran on a headless environment where they could not start.
 
 `scripts/check-native.ps1` inspects the built PE header for x64, Windows GUI subsystem, and absence of a CLR header. It also checks the portable bundle for the required viewer, loader, and license files.
 

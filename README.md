@@ -26,7 +26,7 @@ Folio has a **native C++/Win32 x64 host** and a locally bundled **PDF.js interfa
 2. Right-click the ZIP and choose **Extract All**.
 3. Open the extracted folder and run **Folio.exe**. Keep the `Assets` folder and `WebView2Loader.dll` beside it.
 
-**Requirements:** Windows 10 or 11 x64 and the [Microsoft Edge WebView2 Evergreen Runtime](https://developer.microsoft.com/microsoft-edge/webview2/). If the runtime is missing, Folio offers to open Microsoft's download page. No .NET or separate Visual C++ runtime installation is required.
+**Requirements:** Windows 10 or 11 x64 and an up-to-date [Microsoft Edge WebView2 Evergreen Runtime](https://developer.microsoft.com/microsoft-edge/webview2/) (version 145 or newer). If the runtime is missing or too old, Folio offers to open Microsoft's download page. No .NET or separate Visual C++ runtime installation is required.
 
 This is an unsigned community build. Windows may display an unknown publisher notice. SHA-256 checksums accompany release downloads. ARM64, 32-bit Windows, macOS, and Linux builds are not currently provided.
 

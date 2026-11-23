@@ -9,7 +9,7 @@ Keep the Assets folder and WebView2Loader.dll beside Folio.exe.
 There is no installer and no .NET runtime to install.
 
 Requirements: Windows 10 version 1607 or later / Windows 11, x64,
-and Microsoft Edge WebView2 Runtime. If the runtime is missing, Folio
+and Microsoft Edge WebView2 Runtime 145 or newer. If it is missing or too old, Folio
 offers to open Microsoft's download page:
 https://developer.microsoft.com/microsoft-edge/webview2/
 Choose the Evergreen Standalone Installer for x64 if needed.

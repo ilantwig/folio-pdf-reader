@@ -89,6 +89,13 @@ private:
             ShellExecuteW(window_, L"open", L"https://developer.microsoft.com/microsoft-edge/webview2/", nullptr, nullptr, SW_SHOWNORMAL);
         approved_ = true; DestroyWindow(window_);
     }
+    void runtimeTooOld(const std::wstring& version) {
+        const std::wstring message = L"Folio needs Microsoft Edge WebView2 Runtime 145 or newer.\n\nInstalled version: " + version + L"\n\nUpdate the Evergreen Runtime, then open Folio again. No .NET installation is needed.\n\nOpen Microsoft's WebView2 download page?";
+        if (!report_.empty()) { failTest("WebView2 Runtime 145 or newer is required; installed " + utf8(version)); return; }
+        if (MessageBoxW(window_, message.c_str(), L"Update WebView2 Runtime", MB_YESNO | MB_ICONINFORMATION) == IDYES)
+            ShellExecuteW(window_, L"open", L"https://developer.microsoft.com/microsoft-edge/webview2/", nullptr, nullptr, SW_SHOWNORMAL);
+        approved_ = true; DestroyWindow(window_);
+    }
     void initialize() {
         loader_ = LoadLibraryExW((appDir_ / L"WebView2Loader.dll").c_str(), nullptr, LOAD_LIBRARY_SEARCH_DLL_LOAD_DIR | LOAD_LIBRARY_SEARCH_SYSTEM32);
         if (!loader_) { startupError(HRESULT_FROM_WIN32(GetLastError())); return; }
@@ -98,6 +105,11 @@ private:
         auto callback = handler<ICoreWebView2CreateCoreWebView2EnvironmentCompletedHandler, HRESULT, ICoreWebView2Environment*>([this](HRESULT result, ICoreWebView2Environment* environment) {
             if (FAILED(result) || !environment) { startupError(result); return S_OK; }
             environment_ = Com<ICoreWebView2Environment>(environment);
+            LPWSTR rawVersion = nullptr;
+            if (FAILED(environment_->get_BrowserVersionString(&rawVersion))) { startupError(E_FAIL); return S_OK; }
+            const auto runtimeVersion = takeString(rawVersion);
+            // PDF.js 6 uses modern APIs including Map.getOrInsertComputed.
+            if (wcstol(runtimeVersion.c_str(), nullptr, 10) < 145) { runtimeTooOld(runtimeVersion); return S_OK; }
             auto completed = handler<ICoreWebView2CreateCoreWebView2ControllerCompletedHandler, HRESULT, ICoreWebView2Controller*>([this](HRESULT result, ICoreWebView2Controller* controller) {
                 if (FAILED(result) || !controller) { startupError(result); return S_OK; }
                 controller_ = Com<ICoreWebView2Controller>(controller); check(controller_->get_CoreWebView2(browser_.put()), "Create viewer"); configure(); return S_OK;

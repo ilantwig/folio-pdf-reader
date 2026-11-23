@@ -11,5 +11,6 @@ First public open-source release of the native Windows edition.
 - Undo/redo and PDF save/reopen coverage for signature edits.
 - Password-protected PDFs, invalid-document recovery, recent-file position restore, and Unicode paths.
 - Native integration suite with 104 checks, contributor documentation, and Windows build/release workflows.
+- Clear startup instructions for missing or outdated WebView2 runtimes; the PDF.js viewer requires WebView2 145 or newer.
 
 The native app build was validated locally before publication. Windows builds are unsigned.
